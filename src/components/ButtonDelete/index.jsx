@@ -1,7 +1,7 @@
-function ButtonDelete() {
+function ButtonDelete({deleteProduct, id}) {
    return (
-			<button type='button'>
-				<img src='./img/icons/cross.svg' alt='Delete' />
+			<button type='button' onClick={() => deleteProduct(id)}>
+				<img src='./../img/icons/cross.svg' alt='Delete' />
 			</button>
 		)
 }
