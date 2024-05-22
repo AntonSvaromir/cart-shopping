@@ -1,0 +1,1 @@
+.cart-header{display:grid;grid-template-columns:2fr repeat(3, 3fr) 1fr;-moz-column-gap:30px;column-gap:30px;padding:22px 0;background-color:#eaeff2;font-weight:700;font-size:13px;line-height:1.2;letter-spacing:.2em;text-transform:uppercase}@media(max-width: 600px){.cart-header{height:1px;padding:0}.cart-header>*{display:none}}.cart-header__title{grid-column-start:2}
