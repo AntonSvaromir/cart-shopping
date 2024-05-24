@@ -1,8 +1,10 @@
+import { createContext, useEffect, useState } from 'react'
 import CartHeader from '../CartHeader'
 import Product from '../Product'
 import CartFooter from '../CartFooter'
-import { useEffect, useState } from 'react'
 import Button from '../Button'
+
+export const AppContext = createContext(null)
 
 function Cart() {
 	// Данные по товарам
@@ -18,7 +20,8 @@ function Cart() {
 		.then((res) => res.json())
 		.then((data) => setCart(data))
 	},[fetchData])
-	// Обновление количества выбранных товаров
+
+	// Получение и Обновление количества выбранных товаров
 	useEffect(() => {
 		if (cart) {
 		setTotal({
@@ -37,6 +40,7 @@ function Cart() {
 			res.ok && setFetchData((value) => !value)
 		})
 	}
+
 	// Увеличение количества товара
 	const increase = (id) => {
 		// Ищем товар и изменяем 
@@ -56,6 +60,7 @@ function Cart() {
 		})
 		
 	}
+
 	// Уменьшение количества товара	
 	const decrease = (id) => {
 		// Ищем товар и изменяем
@@ -76,6 +81,7 @@ function Cart() {
 		
 		
 	}
+
 	// Установка количества товара 
 	const changeValue = (id, value) => {
 		// Ищем товар и изменяем
@@ -95,6 +101,7 @@ function Cart() {
 		})
 		
 	}
+
 	// Добавление рандомного товара
 	const addProduct = (e) => {
 		
@@ -127,31 +134,32 @@ function Cart() {
 
 	};
 
-	return (
-		<>
-			<section className='cart'>
-				<CartHeader />
-
-				{cart &&
-					cart.map((product) => {
+	// Отображение товаров в корзине
+	const products = () => {
+		return cart.map((product) => {
 						return (
 							<Product
 								key={product.id}
 								product={product}
-								deleteProduct={deleteProduct}
-								increase={increase}
-								decrease={decrease}
-								changeValue={changeValue}
 							/>
 						)
-					})}
+					})
+	};
+
+	return (
+		<AppContext.Provider
+			value={{ deleteProduct, increase, decrease, changeValue }}>
+			<section className='cart'>
+				<CartHeader />
+
+				{cart && products()}
 
 				{total && <CartFooter total={total} />}
 			</section>
 			<section className='button-wrapper'>
 				<Button title='Add product' onClick={addProduct} />
 			</section>
-		</>
+		</AppContext.Provider>
 	)
 }
 

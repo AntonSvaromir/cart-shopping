@@ -3,7 +3,7 @@ import ButtonDelete from '../ButtonDelete'
 import Count from '../Count'
 import './style.scss'
 
-function Product({ product, deleteProduct, increase, decrease, changeValue }) {
+function Product({ product }) {
 	const { id, img, title, priceTotal, count } = product
 
 	
@@ -16,9 +16,6 @@ function Product({ product, deleteProduct, increase, decrease, changeValue }) {
 			<div className='product__count'>
 				<Count
 					count={count}
-					decrease={decrease}
-					increase={increase}
-					changeValue={changeValue}
 					id={id}
 				/>
 			</div>
@@ -26,7 +23,7 @@ function Product({ product, deleteProduct, increase, decrease, changeValue }) {
 				{priceFormatter(priceTotal)} руб.
 			</div>
 			<div className='product__controls'>
-				<ButtonDelete id={id} deleteProduct={deleteProduct} />
+				<ButtonDelete id={id} />
 			</div>
 		</section>
 	)
