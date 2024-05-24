@@ -2,6 +2,7 @@ import CartHeader from '../CartHeader'
 import Product from '../Product'
 import CartFooter from '../CartFooter'
 import { useEffect, useState } from 'react'
+import Button from '../Button'
 
 function Cart() {
 	// Данные по товарам
@@ -94,27 +95,63 @@ function Cart() {
 		})
 		
 	}
+	// Добавление рандомного товара
+	const addProduct = (e) => {
+		
+		const titles = [
+			'Apple Watch Series 9',
+			'Apple MacBook Pro 14',
+			'Apple iPhone 15',
+		]
+		const images = ['watchSeries9.jpg', 'macbookpro.jpg', 'iphone15.jpg']
+		const prices = [51000, 200000, 88000]
+		const randomValue  = (array) => {
+			 return Math.floor(Math.random() * array.length)
+		}
+		const index = randomValue(titles)
+		const data = {
+			img: images[index],
+			title: titles[index],
+			count: 1,
+			price: prices[index],
+			priceTotal: prices[index],
+		}
+
+		fetch('http://localhost:8000/products' , {
+			method: 'POST',
+			headers: { 'Content-type': 'application/json' },
+			body: JSON.stringify(data),
+		}).then((res) => {
+			res.ok && setFetchData((value) => !value)
+		})
+
+	};
 
 	return (
-		<section className='cart'>
-			<CartHeader />
+		<>
+			<section className='cart'>
+				<CartHeader />
 
-			{cart &&
-				cart.map((product) => {
-					return (
-						<Product
-							key={product.id}
-							product={product}
-							deleteProduct={deleteProduct}
-							increase={increase}
-							decrease={decrease}
-							changeValue={changeValue}
-						/>
-					)
-				})}
+				{cart &&
+					cart.map((product) => {
+						return (
+							<Product
+								key={product.id}
+								product={product}
+								deleteProduct={deleteProduct}
+								increase={increase}
+								decrease={decrease}
+								changeValue={changeValue}
+							/>
+						)
+					})}
 
-			{total && <CartFooter total={total} />}
-		</section>
+				{total && <CartFooter total={total} />}
+			</section>
+			<section className='button-wrapper'>
+				<Button title='Add product' onClick={addProduct} />
+			</section>
+		</>
 	)
 }
 
